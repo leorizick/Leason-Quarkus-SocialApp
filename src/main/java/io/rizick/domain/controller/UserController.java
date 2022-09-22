@@ -1,10 +1,8 @@
 package io.rizick.domain.controller;
 
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.rizick.domain.model.User;
 import io.rizick.domain.model.dto.ResponseError;
 import io.rizick.domain.model.dto.UserRequest;
-import io.rizick.domain.repository.UserRepository;
 import io.rizick.domain.service.UserService;
 
 import javax.inject.Inject;

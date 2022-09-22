@@ -14,7 +14,7 @@ public class FollowerResponse {
     }
 
     public FollowerResponse(Follower follower){
-        this(follower.getId(), follower.getFollower().getName());
+        this(follower.getFollower().getId(), follower.getFollower().getName());
     }
 
     public FollowerResponse(Long id, String name) {

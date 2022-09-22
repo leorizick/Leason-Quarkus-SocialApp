@@ -6,6 +6,7 @@ import io.rizick.domain.model.Post;
 import io.rizick.domain.model.User;
 import io.rizick.domain.model.dto.PostRequest;
 import io.rizick.domain.model.dto.PostResponse;
+import io.rizick.domain.repository.FollowerRepository;
 import io.rizick.domain.repository.PostRepository;
 import io.rizick.domain.repository.UserRepository;
 
@@ -20,11 +21,15 @@ public class PostService {
 
     private UserRepository userRepository;
     private PostRepository postRepository;
+    private FollowerRepository followerRepository;
 
     @Inject
-    public PostService(UserRepository userRepository, PostRepository postRepository) {
+    public PostService(UserRepository userRepository,
+                       PostRepository postRepository,
+                       FollowerRepository followerRepository) {
         this.userRepository = userRepository;
         this.postRepository = postRepository;
+        this.followerRepository = followerRepository;
     }
 
     public Post createPost(Long id, PostRequest postRequest) {
@@ -41,11 +46,18 @@ public class PostService {
         return post;
     }
 
-    public List<PostResponse> listAll(Long id){
+    public List<PostResponse> listAll(Long id, Long followerId){
         User user = userRepository.findById(id);
         if(user == null){
             return null;
         }
+
+        User follower = userRepository.findById(followerId);
+        boolean follows = followerRepository.follows(follower, user);
+        if(!follows){
+            return null;
+        }
+
         var query = postRepository.find("user", Sort.by("date", Sort.Direction.Descending), user);
         var list = query.list();
 

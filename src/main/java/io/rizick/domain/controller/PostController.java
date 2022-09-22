@@ -23,9 +23,14 @@ public class PostController {
     }
 
     @GET
-    public Response listAll(@PathParam("userId") Long id) {
+    public Response listAll(@PathParam("userId") Long id,
+                            @HeaderParam("followerId") Long followerId) {
+        var list = postService.listAll(id, followerId);
+        if (list == null){
+            return Response.status(Response.Status.FORBIDDEN).entity("Voce nao segue este usuario").build();
+        }
         return Response
-                .ok(postService.listAll(id))
+                .ok(list)
                 .build();
     }
 

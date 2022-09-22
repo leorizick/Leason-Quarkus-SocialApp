@@ -1,6 +1,7 @@
 package io.rizick.domain.service;
 
 import io.rizick.domain.model.Follower;
+import io.rizick.domain.model.User;
 import io.rizick.domain.model.dto.FollowerPerUserResponse;
 import io.rizick.domain.model.dto.FollowerRequest;
 import io.rizick.domain.model.dto.FollowerResponse;
@@ -9,7 +10,6 @@ import io.rizick.domain.repository.UserRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -63,9 +63,20 @@ public class FollowerService {
 
             return entity;
         }
-        return null;
 
+        return null;
+    }
+
+    public User unfollowUser(Long userId){
+        var user = userRepository.findById(userId);
+        if(user == null){
+            return null;
+        }
+        return user;
     }
 
 
+    public void deleteByFollowerAndUser(Long followerId, Long userId) {
+        followerRepository.deleteByFollowerAndUser(followerId, userId);
+    }
 }
