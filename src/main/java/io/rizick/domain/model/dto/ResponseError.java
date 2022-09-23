@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 public class ResponseError {
 
+    public static final int UNPROCESSABLE_ENTITY_STATUS = 422;
     private String message;
     private Collection<FieldError> errors;
 
